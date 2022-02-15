@@ -77,14 +77,14 @@ for DB in ${POSTGRES_DBS}; do
     echo "Creating dump of ${DB} database from ${POSTGRES_HOST}..."
     pg_dump -d "${DB}" -f "${DFILE}" ${POSTGRES_EXTRA_OPTS}
   fi
-  #Copy (hardlink) for each entry
+  #Copy (actual copy, not hardlink) for each entry
   if [ -d "${DFILE}" ]; then
     WFILENEW="${WFILE}-new"
     MFILENEW="${MFILE}-new"
     rm -rf "${WFILENEW}" "${MFILENEW}"
     mkdir "${WFILENEW}" "${MFILENEW}"
-    ln -f "${DFILE}/"* "${WFILENEW}/"
-    ln -f "${DFILE}/"* "${MFILENEW}/"
+    cp "${DFILE}/"* "${WFILENEW}/"
+    cp "${DFILE}/"* "${MFILENEW}/"
     rm -rf "${WFILE}" "${MFILE}"
     mv -v "${WFILENEW}" "${WFILE}"
     mv -v "${MFILENEW}" "${MFILE}"
